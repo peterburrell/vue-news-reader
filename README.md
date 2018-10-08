@@ -24,3 +24,8 @@ npm run test
 ```
 npm run lint
 ```
+
+### Builds and deploys site to aws s3
+```
+npm run deploy
+```
