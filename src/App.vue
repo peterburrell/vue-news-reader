@@ -34,14 +34,22 @@ export default {
       articles: [],
       country: qs.get('country') || 'us',
       category: qs.get('category') || '',
-      sources: qs.get('sources') || ''
+      sources: qs.get('sources') || '',
+      //pageSize: qs.get('pageSize') || '20',
+      //page: qs.get('page') || '1'
     }
   },
   created() {
-    var url = `https://newsapi.org/v2/top-headlines?country=${this.country}&category=${this.category}`;
-    
+    const baseUrl = 'https://newsapi.org/v2/top-headlines?';
+
+    let parameters = this.sources 
+      ? `sources=${this.sources}`
+      : `country=${this.country}&category=${this.category}`;
+
+    //parameters += `&pageSize=${this.pageSize}&page=${this.page}`;  
+      
     let vm = this;
-    let req = new Request(url);
+    let req = new Request(baseUrl + parameters);
 
     fetch(req, {
       headers: new Headers({
@@ -52,6 +60,8 @@ export default {
       .then(data => {
         vm.loading = false;
         vm.articles = data.articles
+        // eslint-disable-next-line 
+        console.log('status: ', data.status, ', articles: ', data.totalResults)
       });
   }
 }
